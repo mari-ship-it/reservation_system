@@ -53,12 +53,12 @@ public class ReservationController {
                 .body(reservationService.updateReservation(id, reservationToUpdate));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/cancel")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") Long id) {
 
         log.info("Called deleteReservation: id={}", id);
         try {
-            reservationService.deleteReservation(id);
+            reservationService.cancelReservation(id);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -67,7 +67,7 @@ public class ReservationController {
 
     @PostMapping("/{id}/approve")
     public ResponseEntity<Reservation> approveReservation(@PathVariable("id") Long id) {
-        log.info("Call approveReservation: id={}" + id);
+        log.info("Called approveReservation: id={}", id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(reservationService.approveReservation(id));
     }
