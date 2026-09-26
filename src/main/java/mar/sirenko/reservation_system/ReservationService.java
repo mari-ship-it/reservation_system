@@ -40,12 +40,15 @@ public class ReservationService {
     public Reservation createReservation(
             Reservation reservationToCreate
     ) {
-        if (reservationToCreate.id() != null) {
-            throw new IllegalArgumentException("Id should be empty");
-        }
+
         if (reservationToCreate.status() != null) {
             throw new IllegalArgumentException("Status should be empty");
         }
+
+        if (!reservationToCreate.endDate().isAfter(reservationToCreate.startDate())) {
+            throw new IllegalArgumentException("Start date must be 1 day earlier then and date");
+        }
+
         ReservationEntity entityToSave = new ReservationEntity(
                 null,
                 reservationToCreate.userId(),
@@ -68,6 +71,11 @@ public class ReservationService {
         if (reservationEntity.getStatus() != ReservationStatus.PENDING) {
             throw new IllegalStateException("Cannot modify reservation: status = " + reservationEntity.getStatus());
         }
+
+        if (!reservationToUpdate.endDate().isAfter(reservationToUpdate.startDate())) {
+            throw new IllegalArgumentException("Start date must be 1 day earlier then and date");
+        }
+
         ReservationEntity entityToUpdate = new ReservationEntity(
                 reservationEntity.getId(),
                 reservationToUpdate.userId(),
@@ -84,9 +92,17 @@ public class ReservationService {
     public void cancelReservation(
             Long id
     ) {
-        if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Not found reservation by id = " + id);
+        ReservationEntity reservationEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Not found reservation by id = " + id));
+
+        if (reservationEntity.getStatus() == ReservationStatus.APPROVED) {
+            throw new IllegalStateException("Cannot cancel approved reservation. Contact with manager please");
         }
+
+        if (reservationEntity.getStatus() == ReservationStatus.CANCELLED) {
+            throw new IllegalStateException("Cannot cancel the reservation. Reservation was already cancelled");
+        }
+
         repository.setStatus(id, ReservationStatus.CANCELLED);
         log.info("Successfully cancelled reservation: id={}", id);
     }

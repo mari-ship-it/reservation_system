@@ -16,21 +16,18 @@ public class ReservationEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "room_id")
+    @Column(name = "room_id", nullable = false)
     private Long roomId;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private ReservationStatus status;
-
-    public ReservationEntity() {
-    }
 
     public ReservationEntity(
             Long id, Long userId, Long roomId, LocalDate startDate, LocalDate endDate, ReservationStatus status) {
