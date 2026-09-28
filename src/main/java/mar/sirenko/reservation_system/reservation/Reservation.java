@@ -1,4 +1,4 @@
-package mar.sirenko.reservation_system;
+package mar.sirenko.reservation_system.reservation;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
