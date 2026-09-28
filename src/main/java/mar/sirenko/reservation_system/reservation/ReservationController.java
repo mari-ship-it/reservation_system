@@ -1,4 +1,4 @@
-package mar.sirenko.reservation_system;
+package mar.sirenko.reservation_system.reservation;
 
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -22,10 +22,21 @@ public class ReservationController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Reservation>> getAllReservations() {
+    public ResponseEntity<List<Reservation>> getAllReservations(
+            @RequestParam(name = "roomId", required = false) Long roomId,
+            @RequestParam(name = "userId", required = false) Long userId,
+            @RequestParam(name = "pageSize", required = false) Integer pageSize,
+            @RequestParam(name = "pageNumber", required = false) Integer pageNumber
+    ) {
         log.info("Called getAllReservation");
         return ResponseEntity.status(HttpStatus.OK)
-                .body(reservationService.findAllReservation());
+                .body(reservationService.searchAllByFilter(
+                        new ReservationSearchFilter(
+                                roomId,
+                                userId,
+                                pageSize,
+                                pageNumber
+                        )));
     }
 
     @GetMapping("/{id}")

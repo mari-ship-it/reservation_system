@@ -1,4 +1,4 @@
-package mar.sirenko.reservation_system;
+package mar.sirenko.reservation_system.web;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package mar.sirenko.reservation_system;
+package mar.sirenko.reservation_system.reservation;
 
 import jakarta.persistence.*;
 
@@ -28,6 +28,10 @@ public class ReservationEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ReservationStatus status;
+
+    public ReservationEntity() {
+
+    }
 
     public ReservationEntity(
             Long id, Long userId, Long roomId, LocalDate startDate, LocalDate endDate, ReservationStatus status) {

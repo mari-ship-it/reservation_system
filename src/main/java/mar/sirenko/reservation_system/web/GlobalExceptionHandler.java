@@ -1,4 +1,4 @@
-package mar.sirenko.reservation_system;
+package mar.sirenko.reservation_system.web;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
