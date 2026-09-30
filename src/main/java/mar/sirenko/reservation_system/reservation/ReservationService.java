@@ -88,7 +88,7 @@ public class ReservationService {
         if (!reservationToUpdate.endDate().isAfter(reservationToUpdate.startDate())) {
             throw new IllegalArgumentException("Start date must be 1 day earlier then and date");
         }
-        ReservationEntity entityToUpdate = mapper.toEntity(reservationToUpdate);
+        ReservationEntity entityToUpdate = mapper.toEntity(reservationToUpdate);  // Проверить затираются ли значения если передать null
         entityToUpdate.setId(reservationEntity.getId());
         entityToUpdate.setStatus(ReservationStatus.PENDING);
 
